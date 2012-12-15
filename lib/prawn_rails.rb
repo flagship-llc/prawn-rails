@@ -13,11 +13,13 @@ module Prawn
       def prawn_document(opts={})
         download = opts.delete(:force_download)
         filename = opts.delete(:filename)
+        output_file = opts.delete(:output_file)
         pdf = (opts.delete(:renderer) || Prawn::Document).new(opts)
         yield pdf if block_given?
 
         disposition(download, filename) if (download || filename)
 
+        pdf.render_file output_file if output_file
         pdf.render
       end
 
